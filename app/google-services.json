@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345883794544",
+    "project_id": "bibbulmun-track",
+    "storage_bucket": "bibbulmun-track.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345883794544:android:2fe7d91c9ca768b744a8b5",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0ywpeKTp7JeE3lXdlkFtjkVnHCrU-pUo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
