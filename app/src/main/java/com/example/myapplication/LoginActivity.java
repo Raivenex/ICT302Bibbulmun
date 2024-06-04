@@ -3,9 +3,12 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +63,21 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById((R.id.Register));
 
+        ImageView imageViewShowHidePassword = findViewById(R.id.imageView_show_hide_password);
+        imageViewShowHidePassword.setImageResource(R.drawable.hidepwd);
+        imageViewShowHidePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(editTextPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance()); //If password visible; hide it
+                    imageViewShowHidePassword.setImageResource(R.drawable.hidepwd); // Change image
+                }else{
+                    editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    imageViewShowHidePassword.setImageResource(R.drawable.showpwd); // Change image
+                }
+            }
+        });
+
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,11 +97,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(LoginActivity.this,"Please enter your email", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
 
                 if(TextUtils.isEmpty(password)){
                     Toast.makeText(LoginActivity.this,"Please enter your password", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
 

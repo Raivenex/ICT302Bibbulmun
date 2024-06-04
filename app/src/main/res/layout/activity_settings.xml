@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity"
+    android:background="@color/black">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_margin="15dp">
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/settingsTitle"
+            android:layout_marginTop="30dp"
+            android:text="Settings"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateName"
+            android:layout_below="@+id/settingsTitle"
+            android:text = "Name"
+            android:layout_marginTop="30dp"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_text_update_name"
+            android:layout_below="@id/updateName"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateEmail"
+            android:layout_below="@+id/updateName"
+            android:text = "Email"
+            android:layout_marginTop="30dp"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_text_update_email"
+            android:layout_below="@id/updateEmail"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updatePhone"
+            android:layout_below="@+id/updateEmail"
+            android:text = "Phone"
+            android:layout_marginTop="30dp"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_text_update_phone"
+            android:layout_below="@id/updatePhone"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateSection"
+            android:layout_below="@+id/updatePhone"
+            android:text = "Section"
+            android:layout_marginTop="30dp"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_text_update_section"
+            android:layout_below="@id/updateSection"
+            android:padding="6dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateSkillSet"
+            android:layout_below="@+id/updateSection"
+            android:text = "SkillSet (Please enter your a list of your skills separated by commas)"
+            android:layout_marginTop="30dp"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_text_update_skillset"
+            android:layout_below="@id/updateSkillSet"
+            android:padding="6dp"
+            android:textSize="16sp"/>
+        
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/save_settings_btn"
+            android:layout_below="@id/edit_text_update_skillset"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:text="Save"
+            android:backgroundTint="@color/Coral"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/logout_btn"
+            android:layout_below="@id/save_settings_btn"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:text="Logout"/>
+        
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_centerVertical="true"
+            android:id="@+id/save_progressBar"
+            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            android:visibility="gone"/>
+
+
+
+
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+</ScrollView>

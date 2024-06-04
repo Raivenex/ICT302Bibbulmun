@@ -5,28 +5,210 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/userDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/mySkills"
+        android:layout_width="341dp"
+        android:layout_height="225dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/Pink"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441" />
+        app:layout_constraintVertical_bias="0.862">
 
-    <Button
-        android:id="@+id/buttonLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
+        <ImageView
+            android:id="@+id/SkillsIcon"
+            android:layout_width="58dp"
+            android:layout_height="52dp"
+            android:paddingTop="15dp"
+            app:srcCompat="@drawable/skillicon" />
+
+        <TextView
+            android:id="@+id/listOfSkills"
+            android:layout_width="match_parent"
+            android:layout_height="193dp"
+            android:paddingTop="15dp"
+            android:textColor="@color/black"
+            android:paddingLeft="58dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mySkillTextView"
+        android:layout_width="272dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_vertical"
+        android:text="My skills: "
+        android:textColor="@color/black"
+        android:paddingTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/mySkills"
+        app:layout_constraintStart_toStartOf="@+id/mySkills"
+        app:layout_constraintTop_toTopOf="@+id/mySkills" />
+
+
+    <LinearLayout
+        android:id="@+id/hoursVolunteered"
+        android:layout_width="343dp"
+        android:layout_height="66dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/DarkOrange"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.336">
+
+        <ImageView
+            android:id="@+id/clock"
+            android:layout_width="58dp"
+            android:layout_height="52dp"
+            android:paddingTop="15dp"
+            app:srcCompat="@drawable/hours_worked" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/DisplayName"
+        android:layout_width="368dp"
+        android:layout_height="119dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.063" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        app:shapeAppearance="@style/Theme.Material3.Dark"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@android:color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/settings_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/YellowGreen"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/add_btn"
+        app:layout_constraintEnd_toEndOf="@+id/add_btn"
+        app:shapeAppearance="@style/Theme.Material3.Dark"
+        app:srcCompat="@drawable/ic_settings"
+        app:tint="@android:color/black" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/reportArchive_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/Beige"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/settings_btn"
+        app:layout_constraintEnd_toEndOf="@+id/settings_btn"
+        app:shapeAppearance="@style/Theme.Material3.Dark"
+        app:srcCompat="@drawable/ic_folder"
+        app:tint="@android:color/black" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/createReport_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/Orange"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/reportArchive_btn"
+        app:layout_constraintEnd_toEndOf="@+id/reportArchive_btn"
+        app:shapeAppearance="@style/Theme.Material3.Dark"
+        app:srcCompat="@drawable/ic_edit"
+        app:tint="@android:color/black" />
+
+    <LinearLayout
+        android:id="@+id/Sections"
+        android:layout_width="343dp"
+        android:layout_height="66dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/Yellow"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.475">
+
+        <ImageView
+            android:id="@+id/map"
+            android:layout_width="58dp"
+            android:layout_height="52dp"
+            android:paddingTop="15dp"
+            app:srcCompat="@drawable/map_icon" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mySection"
+        android:layout_width="224dp"
+        android:layout_height="62dp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/Sections"
+        app:layout_constraintEnd_toEndOf="@+id/Sections"
+        app:layout_constraintStart_toStartOf="@+id/Sections"
+        app:layout_constraintTop_toTopOf="@+id/Sections" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <TextView
+        android:id="@+id/hoursWorkedTextView"
+        android:layout_width="256dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="31dp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/hoursVolunteered"
+        app:layout_constraintEnd_toEndOf="@+id/hoursVolunteered"
+        app:layout_constraintStart_toEndOf="@+id/hoursVolunteered"
+        app:layout_constraintStart_toStartOf="@+id/hoursVolunteered"
+        app:layout_constraintTop_toTopOf="@+id/hoursVolunteered" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -1,7 +1,24 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="Login">Login</string>
-    <string name="email">email</string>
-    <string name="password">password\n</string>
-    <string name="Welcome">Welcome</string>
+    <string name="app_name">YourAppName</string>
+
+    <string-array name="issue_types">
+        <item>Select Issue Type</item>
+        <item>Erosion</item>
+        <item>Regrowth</item>
+        <item>Weeds</item>
+        <item>Damage to water bars</item>
+        <item>Damage to hardware or structures</item>
+        <item>Inundation</item>
+        <item>Litter</item>
+        <item>Missing Waugals</item>
+        <item>Damaged Waugals</item>
+        <item>Missing Signage</item>
+        <item>Damaged Signage</item>
+        <item>Mountain Bikes (inappropriate use)</item>
+        <item>Trail Bikes (inappropriate use)</item>
+        <item>Horses (inappropriate use)</item>
+        <item>Vehicles (inappropriate use)</item>
+        <item>Tree blow downs</item>
+        <item>Other</item>
+    </string-array>
 </resources>

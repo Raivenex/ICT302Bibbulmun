@@ -16,31 +16,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class register extends AppCompatActivity {
 
-    EditText editTextEmail, editTextPassword;
+    EditText editTextEmail, editTextPassword, editTextName,editTextPhoneNumber;
     FirebaseAuth  mAuth;
     TextView textView;
     ProgressBar progressBar;
     Button buttonReg;
-    FirebaseUser currentUser;
-
-    String phoneNumber;
     String Name;
+    String phoneNumber;
 
     @Override
     public void onStart() {
@@ -69,9 +62,9 @@ public class register extends AppCompatActivity {
         editTextPassword = findViewById(R.id.Password);
         buttonReg = findViewById(R.id.buttonRegister);
         progressBar = findViewById(R.id.progressBar);
-        textView = findViewById((R.id.Login));
-        phoneNumber = String.valueOf(findViewById(R.id.phoneNumber));
-        Name = String.valueOf(findViewById(R.id.Name));
+        textView = findViewById(R.id.Login);
+        editTextName = findViewById(R.id.Name);
+        editTextPhoneNumber = findViewById(R.id.phoneNumber);
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,51 +79,35 @@ public class register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
+                String email, password, userName, userPhoneNumber;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
-                
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(register.this,"Please enter your email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                userName = String.valueOf(editTextName.getText());
+                userPhoneNumber = String.valueOf(editTextPhoneNumber.getText());
 
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(register.this,"Please enter your password", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPhoneNumber)){
+                    Toast.makeText(register.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
 
                 mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    // Now, store the phone number and name in Firestore
-                                    DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(user.getUid());
-                                    Map<String, Object> userData = new HashMap<>();
-                                    userData.put("phone", phoneNumber);
-                                    userData.put("name", Name);
-                                    docRef.set(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(register.this, "Account Created", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(register.this, "Error saving user data", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else {
-                                    Toast.makeText(register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                }
+                        .addOnCompleteListener(task -> {
+                            progressBar.setVisibility(View.GONE);
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                FirebaseDatabase db = FirebaseDatabase.getInstance("https://bibbulmun-track-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                                DatabaseReference reference = db.getReference("users");
+                                Name = editTextName.getText().toString();
+                                phoneNumber = editTextPhoneNumber.getText().toString();
+                                //Create User data
+                                UserData userData = new UserData(Name,phoneNumber);
+                                reference.child(user.getUid()).setValue(userData);
+                                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(register.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
             }
