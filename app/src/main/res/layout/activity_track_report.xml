@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TrackReportActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Dropdown Menu for Selecting Issue Type -->
+        <Spinner
+            android:id="@+id/spinnerIssueType"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- EditText for Displaying Date and Time -->
+        <EditText
+            android:id="@+id/etDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date and Time"
+            android:focusable="false"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:background="@android:color/transparent"
+            android:visibility="gone"/>
+
+        <!-- ImageView for uploading a photo -->
+        <ImageView
+            android:id="@+id/imageUpload"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/addimg"
+            android:scaleType="centerCrop"
+            android:visibility="gone"/>
+
+        <!-- Input Field for Location -->
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnGetLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="Locate"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:visibility="gone"/>
+        
+        <!-- Dropdown for Severity -->
+        <Spinner
+            android:id="@+id/spinnerSeverity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <!-- Dropdown for Frequency -->
+        <Spinner
+            android:id="@+id/spinnerFrequency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <!-- Input Field for Actions Taken -->
+        <EditText
+            android:id="@+id/etActionTaken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Action Taken"
+            android:visibility="gone"/>
+
+        <!-- Checkbox for Assistance Required -->
+        <CheckBox
+            android:id="@+id/cbAssistanceRequired"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Assistance Required"
+            android:visibility="gone"/>
+
+        <!-- Input Field for Comments -->
+        <EditText
+            android:id="@+id/etComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Comments"
+            android:visibility="gone"/>
+
+        <!-- Button to Add the Report -->
+        <Button
+            android:id="@+id/btnAddReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Report"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</ScrollView>

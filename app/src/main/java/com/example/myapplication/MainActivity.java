@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private Button buttonLogout;
-    private FloatingActionButton addButton, reportArchiveButton, createReportButton, settingButton;
+    private FloatingActionButton addButton, reportArchiveButton, createReportButton, settingButton,campsiteReportButton;
     private TextView textViewName, textViewHoursVolunteered, textViewMySections, textViewListofSkills;
     private String Name,hoursVolunteered, mySection, mySkillSet;
     private boolean clicked = true;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         settingButton = findViewById(R.id.settings_btn);
         reportArchiveButton = findViewById(R.id.reportArchive_btn);
         createReportButton = findViewById(R.id.createReport_btn);
+        campsiteReportButton = findViewById(R.id.campsiteReport_btn);
         FirebaseUser User = auth.getCurrentUser();
         if(User == null){
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -78,17 +79,23 @@ public class MainActivity extends AppCompatActivity {
                     settingButton.startAnimation(getFromBottom());
                     reportArchiveButton.startAnimation(getFromBottom());
                     createReportButton.startAnimation(getFromBottom());
+                    campsiteReportButton.startAnimation(getFromBottom());
 
-                    createReportButton.setClickable(false);
+                    createReportButton.setClickable(true);
                     settingButton.setClickable(true);
-                    reportArchiveButton.setClickable(false);
+                    reportArchiveButton.setClickable(true);
+                    campsiteReportButton.setClickable(true);
 
                 } else {
                     addButton.startAnimation(getRotateClose());
                     settingButton.startAnimation(getToBottom());
                     reportArchiveButton.startAnimation(getToBottom());
                     createReportButton.startAnimation(getToBottom());
+                    campsiteReportButton.startAnimation(getToBottom());
                     settingButton.setClickable(false);
+                    createReportButton.setClickable(false);
+                    reportArchiveButton.setClickable(false);
+                    campsiteReportButton.setClickable(false);
                 }
                 //setAnimation(clicked);
                 clicked = !clicked;
@@ -101,6 +108,33 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(intent);
                 finish();;
+            }
+        });
+
+        createReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TrackReportActivity.class);
+                startActivity(intent);
+                finish();;
+            }
+        });
+
+        reportArchiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewReportActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        campsiteReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CampsiteReportActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -151,16 +185,19 @@ public class MainActivity extends AppCompatActivity {
             createReportButton.setVisibility(View.VISIBLE);
             settingButton.setVisibility(View.VISIBLE);
             reportArchiveButton.setVisibility(View.VISIBLE);
+            campsiteReportButton.setVisibility(View.VISIBLE);
             //clickable
 
         } else {
             createReportButton.setVisibility(View.INVISIBLE);
             settingButton.setVisibility(View.INVISIBLE);
             reportArchiveButton.setVisibility(View.INVISIBLE);
+            campsiteReportButton.setVisibility(View.INVISIBLE);
             //clickable
             createReportButton.setClickable(true);
             settingButton.setClickable(true);
             reportArchiveButton.setClickable(true);
+            campsiteReportButton.setClickable(true);
         }
     }
     private Animation getRotateOpen() {

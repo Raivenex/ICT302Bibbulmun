@@ -21,4 +21,125 @@
         <item>Tree blow downs</item>
         <item>Other</item>
     </string-array>
+
+    <string-array name="campsite_issues">
+        <item>Select Issue</item>
+        <!-- Shelter -->
+        <item>Gutter guard</item>
+        <item>Guttering and pipes</item>
+        <item>Water tank/tap #1</item>
+        <item>Water tank/tap #2</item>
+        <item>Bunks and ladders</item>
+        <item>Internal table</item>
+        <item>External table</item>
+        <item>General structure</item>
+        <!-- Other Facilities -->
+        <item>Fire pit</item>
+        <item>Toilet</item>
+        <item>Internal trail</item>
+        <item>Tent sites</item>
+        <item>Signage</item>
+        <item>Surrounds</item>
+        <item>Litter</item>
+        <item>Termites</item>
+        <!-- Water Quality -->
+        <item>Tank #1 Clarity</item>
+        <item>Tank #1 Odour</item>
+        <item>Tank #1 Colour</item>
+        <item>Tank #2 Clarity</item>
+        <item>Tank #2 Odour</item>
+        <item>Tank #2 Colour</item>
+        <item>Water Level % Tank #1</item>
+        <item>Water Level % Tank #2</item>
+        <!-- Registers -->
+        <item>Red Register required</item>
+        <item>Green Log Book required</item>
+    </string-array>
+
+    <string-array name="frequency">
+        <item>Select Frequency</item>
+        <item>Minimal</item>
+        <item>Moderate</item>
+        <item>Severe</item>
+    </string-array>
+
+    <string-array name="severity">
+        <item>Select Severity</item>
+        <item>Minimal</item>
+        <item>Moderate</item>
+        <item>Severe</item>
+    </string-array>
+
+    <string-array name="campsites">
+        <item>Select Campsite</item>
+        <item>Hewetts Hill</item>
+        <item>Helena</item>
+        <item>Beraking</item>
+        <item>Brookton</item>
+        <item>Monadnocks</item>
+        <item>Mt Cooke</item>
+        <item>Nerang</item>
+        <item>Gringer Creek</item>
+        <item>White Horse Hills</item>
+        <item>Mt Wells</item>
+        <item>Chadoora</item>
+        <item>Dwellingup</item>
+        <item>Swamp Oak</item>
+        <item>Murray</item>
+        <item>Dookanelly</item>
+        <item>Possum Springs</item>
+        <item>Yourdamung</item>
+        <item>Harris Dam</item>
+        <item>Collie</item>
+        <item>Yabberup</item>
+        <item>Noggerup</item>
+        <item>Grimwade</item>
+        <item>Balingup</item>
+        <item>Blackwood</item>
+        <item>Gregory Brook</item>
+        <item>DRV</item>
+        <item>Tom Road</item>
+        <item>Boarding House</item>
+        <item>Beavis</item>
+        <item>Beedelup</item>
+        <item>Pemberton</item>
+        <item>Warren</item>
+        <item>Schafer</item>
+        <item>Northcliffe</item>
+        <item>Gardner</item>
+        <item>Maringup</item>
+        <item>Dog Pool</item>
+        <item>Mt Chance</item>
+        <item>Woolbales</item>
+        <item>Long Point</item>
+        <item>Walpole</item>
+        <item>Frankland</item>
+        <item>Giants</item>
+        <item>Rame Head</item>
+        <item>Peaceful Bay</item>
+        <item>Boat Harbour</item>
+        <item>William Bay</item>
+        <item>Denmark</item>
+        <item>Nullaki</item>
+        <item>West Cape Howe</item>
+        <item>Torbay</item>
+        <item>Mutton Bird</item>
+        <item>Sand Patch</item>
+        <item>Albany</item>
+    </string-array>
+
+    <string-array name="districts">
+        <item>Select District</item>
+        <item>Perth Hills (Mundaring)</item>
+        <item>Perth Hills (Dwellingup)</item>
+        <item>Wellington</item>
+        <item>Blackwood</item>
+        <item>Donnelly (Manjimup)</item>
+        <item>Donnelly (Pemberton)</item>
+        <item>Frankland</item>
+        <item>Albany</item>
+    </string-array>
+
+
+
 </resources>

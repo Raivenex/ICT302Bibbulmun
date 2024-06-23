@@ -12,6 +12,7 @@ firebaseAuth = "23.0.0"
 firebaseFirestore = "25.0.0"
 firebaseDatabase = "21.0.0"
 playServicesMaps = "18.2.0"
+firebaseStorage = "21.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -25,6 +26,10 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+poi = "org.apache.poi:poi:5.2.3"  # Apache POI for Excel file operations
+poi-ooxml = "org.apache.poi:poi-ooxml:5.2.3"
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
