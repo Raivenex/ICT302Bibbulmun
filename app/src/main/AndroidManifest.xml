@@ -23,6 +23,15 @@
         android:theme="@style/Theme.Material3.Dark"
         tools:targetApi="31">
         <activity
+            android:name=".AdminViewReports"
+            android:exported="false" />
+        <activity
+            android:name=".VolunteersInformation"
+            android:exported="false" />
+        <activity
+            android:name=".AdminMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".CampsiteReportActivity"
             android:exported="false" />
 
