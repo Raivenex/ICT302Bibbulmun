@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -54,6 +55,9 @@ public class TrackReportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -116,8 +120,12 @@ public class TrackReportActivity extends AppCompatActivity {
         btnAddReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exportDataToExcelTrack();
-                clearFields();
+                if (validateFields()) {
+                    exportDataToExcelTrack();
+                    clearFields();  // Clear fields only if data is valid and report is added
+                } else {
+                    showSubmitConfirmationDialog();
+                }
             }
         });
 
@@ -215,7 +223,7 @@ public class TrackReportActivity extends AppCompatActivity {
     }
 
     private void saveFormData() {
-        SharedPreferences prefs = getSharedPreferences("FormData", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("TrackFormData", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.putString("Location", trackLocation.getText().toString());
@@ -312,5 +320,38 @@ public class TrackReportActivity extends AppCompatActivity {
         anchor.setRow2(6);
         // Create a picture at the location defined by the anchor points
         Picture pict = drawing.createPicture(anchor, pictureIdx);
+    }
+    //Validation
+
+    private boolean validateFields() {
+        boolean valid = true;
+        if (trackLocation.getText().toString().trim().isEmpty()) {
+            trackLocation.setError("Location is required");
+            valid = false;
+        }
+        if (trackActionTaken.getText().toString().trim().isEmpty()) {
+            trackActionTaken.setError("Action Taken is required");
+            valid = false;
+        }
+        if (trackComments.getText().toString().trim().isEmpty()) {
+            trackComments.setError("Comments are required");
+            valid = false;
+        }
+        if (spinnerIssueType.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Please select an issue type", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        return valid;
+    }
+    private void showSubmitConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Incomplete Fields")
+                .setMessage("Some fields are missing. Do you still want to submit the report?")
+                .setPositiveButton("Submit Anyway", (dialog, which) -> {
+                    exportDataToExcelTrack();
+                    clearFields();  // Submit the data even if it's incomplete
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }

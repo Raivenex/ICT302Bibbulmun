@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -33,11 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText editTextEmail, editTextPassword;
-    FirebaseAuth mAuth;
-    TextView textView;
-    ProgressBar progressBar;
-    Button buttonLogin;
+    private EditText editTextEmail, editTextPassword;
+    private FirebaseAuth mAuth;
+    private TextView textViewRegister, textViewForgotPassword;
+    private ProgressBar progressBar;
+    private Button buttonLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.Password);
         buttonLogin = findViewById(R.id.buttonLogin);
         progressBar = findViewById(R.id.progressBar);
-        textView = findViewById((R.id.Register));
+        textViewRegister = findViewById((R.id.Register));
+        textViewForgotPassword = findViewById(R.id.ForgotPassword);
 
         ImageView imageViewShowHidePassword = findViewById(R.id.imageView_show_hide_password);
         imageViewShowHidePassword.setImageResource(R.drawable.hidepwd);
@@ -71,12 +74,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        textViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), register.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showResetPasswordDialog();
             }
         });
 
@@ -106,13 +116,16 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    checkUserType(user);
-
+                                    if(mAuth.getCurrentUser().isEmailVerified()){
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        checkUserType(user);
+                                    }else {
+                                        Toast.makeText(LoginActivity.this,"Please verify your Email address.",Toast.LENGTH_SHORT).show();
+                                        mAuth.getCurrentUser().sendEmailVerification();
+                                    }
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
-
                                 }
                             }
                         });
@@ -142,5 +155,39 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Failed to read user data.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void resetPassword(String email) {
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Reset password instructions have been sent to your email.", Toast.LENGTH_LONG).show();
+                    } else {
+                            Toast.makeText(LoginActivity.this, "Error: Failed to send email." , Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showResetPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter your email below");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Reset", (dialog, which) -> {
+            String email = input.getText().toString().trim();
+            if (!TextUtils.isEmpty(email)) {
+                resetPassword(email);
+            } else {
+                Toast.makeText(LoginActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
     }
 }

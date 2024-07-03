@@ -7,35 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".ViewReportActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/delete_All_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/LightGrey"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
-        app:shapeAppearance="@style/Theme.Material3.Dark"
-        app:srcCompat="@drawable/ic_upload"
-        app:tint="@android:color/black"/>
-
     <ListView
         android:id="@+id/listViewFiles"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/view_uploaded_files_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/view_uploaded_files_btn"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:backgroundTint="@color/AliceBlue"
+        android:text="View uploaded files"
+        app:layout_constraintBottom_toTopOf="@+id/upload_files_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/upload_files_btn"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:backgroundTint="@color/Coral"
+        android:text="Upload Files"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintStart_toStartOf="parent" />
 
-    </ListView>
+    <TextView
+        android:id="@+id/tvNoFiles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="No new files to upload."
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:background="#AA000000"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

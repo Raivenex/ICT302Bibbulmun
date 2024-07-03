@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,18 +37,6 @@ public class register extends AppCompatActivity {
     Button buttonReg;
     String Name;
     String phoneNumber;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +76,7 @@ public class register extends AppCompatActivity {
                 userName = String.valueOf(editTextName.getText());
                 userPhoneNumber = String.valueOf(editTextPhoneNumber.getText());
 
-                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPhoneNumber)){
+                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPhoneNumber)) {
                     Toast.makeText(register.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                     return;
@@ -95,17 +86,27 @@ public class register extends AppCompatActivity {
                         .addOnCompleteListener(task -> {
                             progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                FirebaseDatabase db = FirebaseDatabase.getInstance("https://bibbulmun-track-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                                DatabaseReference reference = db.getReference("users");
-                                Name = editTextName.getText().toString();
-                                phoneNumber = editTextPhoneNumber.getText().toString();
-                                //Create User data
-                                UserData userData = new UserData(Name,phoneNumber);
-                                reference.child(user.getUid()).setValue(userData);
-                                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                                startActivity(intent);
-                                finish();
+                                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            FirebaseDatabase db = FirebaseDatabase.getInstance("https://bibbulmun-track-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                                            DatabaseReference reference = db.getReference("users");
+                                            Name = editTextName.getText().toString();
+                                            phoneNumber = editTextPhoneNumber.getText().toString();
+                                            // Create User data
+                                            UserData userData = new UserData(Name, phoneNumber);
+                                            reference.child(user.getUid()).setValue(userData);
+                                            Toast.makeText(register.this, "User registered, please verify your email." , Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(register.this, "Verification email failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             } else {
                                 Toast.makeText(register.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }

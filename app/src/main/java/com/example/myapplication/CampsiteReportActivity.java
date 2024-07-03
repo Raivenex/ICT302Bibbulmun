@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -62,6 +63,9 @@ public class CampsiteReportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -129,8 +133,12 @@ public class CampsiteReportActivity extends AppCompatActivity {
         addReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exportDataToExcel();
-                clearFields();
+                if (validateFields()) {
+                    exportDataToExcel();
+                    clearFields(); // Clear fields only if data is valid and report is added
+                } else {
+                    showSubmitConfirmationDialog();
+                }
             }
         });
 
@@ -161,7 +169,7 @@ public class CampsiteReportActivity extends AppCompatActivity {
         editor.apply(); // use apply instead of commit for background thread saving
     }
     private void restoreFormData() {
-        SharedPreferences prefs = getSharedPreferences("FormData", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("CampsiteFormData", MODE_PRIVATE);
 
         etLocation.setText(prefs.getString("Location", ""));
         spinnerCampsite.setSelection(prefs.getInt("CampsiteSpinnerPosition", 0));
@@ -325,5 +333,49 @@ public class CampsiteReportActivity extends AppCompatActivity {
 
         // Optionally, if you're displaying a toast message upon clearing fields:
         Toast.makeText(this, "All fields have been cleared", Toast.LENGTH_SHORT).show();
+    }
+    //Validate
+    private boolean validateFields() {
+        boolean valid = true;
+        if (etLocation.getText().toString().trim().isEmpty()) {
+            etLocation.setError("Location is required");
+            valid = false;
+        }
+        if (etActionTaken.getText().toString().trim().isEmpty()) {
+            etActionTaken.setError("Action Taken is required");
+            valid = false;
+        }
+        if (etComments.getText().toString().trim().isEmpty()) {
+            etComments.setError("Comments are required");
+            valid = false;
+        }
+        if (spinnerCampsite.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Please select a campsite", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if (spinnerDistrict.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Please select a district", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if (spinnerCampsiteIssue.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Please select an issue", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+        if (etDateTime.getText().toString().trim().isEmpty()) {
+            etDateTime.setError("Date and Time are required");
+            valid = false;
+        }
+        return valid;
+    }
+    private void showSubmitConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Incomplete Fields")
+                .setMessage("Some fields are missing. Do you still want to submit the report?")
+                .setPositiveButton("Submit Anyway", (dialog, which) -> {
+                    exportDataToExcel();
+                    clearFields();  // Submit the data even if it's incomplete
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }

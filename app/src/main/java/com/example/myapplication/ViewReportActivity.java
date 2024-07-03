@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
@@ -26,15 +30,28 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO make an upload page to see all the files you have uploaded
 
 public class ViewReportActivity extends AppCompatActivity {
     private ListView listViewFiles;
     private List<String> fileList;
-    private FloatingActionButton fabDeleteAll;
+    private Button uploadFilesBtn, viewUploadedFiles;
+    private TextView tvNoFiles;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent;
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this,onBackPressedCallback);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_view_report);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -43,15 +60,39 @@ public class ViewReportActivity extends AppCompatActivity {
             return insets;
         });
         listViewFiles = findViewById(R.id.listViewFiles);
-
+        uploadFilesBtn = findViewById(R.id.upload_files_btn);
+        viewUploadedFiles = findViewById(R.id.view_uploaded_files_btn);
+        tvNoFiles = findViewById(R.id.tvNoFiles);
         fileList = getFileList();
         ArrayAdapter<String> fileAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileList);
         listViewFiles.setAdapter(fileAdapter);
-        fabDeleteAll = findViewById(R.id.delete_All_btn);
-        fabDeleteAll.setOnClickListener(view -> uploadAllFiles());
+        updateUIBasedOnFiles();
+        viewUploadedFiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewUploadedReportActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        uploadFilesBtn.setOnClickListener(view -> uploadAllFiles());
         listViewFiles.setOnItemClickListener((parent, view, position, id) -> {
             openFile(fileList.get(position));
         });
+        listViewFiles.setOnItemLongClickListener((parent, view, position, id) -> {
+            String fileName = fileList.get(position);
+            showDeleteConfirmationDialog(fileName);
+            return true;
+        });
+    }
+    private void updateUIBasedOnFiles() {
+        if (fileList.isEmpty()) {
+            tvNoFiles.setVisibility(View.VISIBLE);
+            listViewFiles.setVisibility(View.GONE);
+        } else {
+            tvNoFiles.setVisibility(View.GONE);
+            listViewFiles.setVisibility(View.VISIBLE);
+        }
     }
     private List<String> getFileList() {
         File directory = getExternalFilesDir(null);
@@ -80,41 +121,15 @@ public class ViewReportActivity extends AppCompatActivity {
             Toast.makeText(this, "No application found to open Excel files", Toast.LENGTH_LONG).show();
         }
     }
-    private void showDeleteConfirmationDialog() {
+    private void showDeleteConfirmationDialog(String fileName) {
         new AlertDialog.Builder(this)
                 .setTitle("Confirm Deletion")
-                .setMessage("Are you sure you want to delete all reports?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteAllReports())
+                .setMessage("Are you sure you want to delete this report?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteChosenFile(fileName))
                 .setNegativeButton(android.R.string.no, null)
                 .show();
     }
 
-    private void deleteAllReports() {
-        // Get the directory where the files are saved
-        File directory = getExternalFilesDir(null);
-        if (directory != null && directory.isDirectory()) {
-            // List all files in the directory
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isFile()) {
-                        boolean deleted = file.delete();
-                        if (deleted) {
-                            Log.d("DeleteReports", "Deleted file: " + file.getName());
-                        } else {
-                            Log.d("DeleteReports", "Failed to delete file: " + file.getName());
-                        }
-                    }
-                }
-            }
-        }
-        // Update the UI if necessary, assuming you have a list and adapter to update
-        if (listViewFiles != null && listViewFiles.getAdapter() instanceof ArrayAdapter) {
-            ((ArrayAdapter<String>) listViewFiles.getAdapter()).clear();
-            ((ArrayAdapter<String>) listViewFiles.getAdapter()).notifyDataSetChanged();
-        }
-        Toast.makeText(this, "All reports deleted", Toast.LENGTH_SHORT).show();
-    }
 
     //New stuff
     private void uploadFileToFirebase(String fileName) {
@@ -155,6 +170,17 @@ public class ViewReportActivity extends AppCompatActivity {
                     uploadFileToFirebase(file.getName());
                 }
             }
+        }
+    }
+    private void deleteChosenFile(String fileName) {
+        File file = new File(getExternalFilesDir(null), fileName);
+        if (file.delete()) {
+            fileList.remove(fileName); // Update your list
+            ((ArrayAdapter<String>) listViewFiles.getAdapter()).notifyDataSetChanged();
+            updateUIBasedOnFiles();
+            Toast.makeText(this, "File deleted", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Failed to delete file", Toast.LENGTH_SHORT).show();
         }
     }
 }
